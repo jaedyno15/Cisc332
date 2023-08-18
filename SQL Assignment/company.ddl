@@ -1,55 +1,56 @@
+# Database provided for the assignment by professor 
 
 create database companydb;
 
 CREATE TABLE Department(
-DName			VARCHAR(15)	NOT NULL,
-DNumber			INTEGER		NOT NULL,
-MGRSSN			CHAR(11)	NOT NULL,
-MgrStartDate		DATE,
+DName VARCHAR(15) NOT NULL,
+DNumber	INTEGER	NOT NULL,
+MGRSSN	CHAR(11) NOT NULL,
+MgrStartDate DATE,
 PRIMARY KEY(DNumber));
 
 CREATE TABLE Employee(
-SSN			CHAR(11)	NOT NULL,
-BDate			DATE,
-Sex			CHAR(1),
-Address			VARCHAR(40),
-Salary			INTEGER,
-FName			CHAR(20),
-Minit			CHAR(1),
-LName			CHAR(20),
-Dno			INTEGER,
-SuperSSN		CHAR(11),
+SSN	CHAR(11) NOT NULL,
+BDate DATE,
+Sex	CHAR(1),
+Address	VARCHAR(40),
+Salary INTEGER,
+FName CHAR(20),
+Minit CHAR(1),
+LName CHAR(20),
+Dno INTEGER,
+SuperSSN CHAR(11),
 PRIMARY KEY(SSN));
 
 
 CREATE TABLE Project(
-PName			CHAR(20)	NOT NULL,
-PNumber			INTEGER		NOT NULL,
-PLocation		CHAR(40),
-DNum			INTEGER		NOT NULL,
+PName CHAR(20) NOT NULL,
+PNumber INTEGER	NOT NULL,
+PLocation CHAR(40),
+DNum INTEGER NOT NULL,
 PRIMARY KEY(PNumber),
 FOREIGN KEY(DNum) REFERENCES Department(DNumber));
 
 CREATE TABLE Dependent(
-dependent_name		CHAR(40)	NOT NULL,
-Sex			CHAR(1),
-Bdate			DATE,
-Relationship		CHAR(10),
-ESSN			CHAR(11)	NOT NULL,
+dependent_name CHAR(40)	NOT NULL,
+Sex	CHAR(1),
+Bdate DATE,
+Relationship CHAR(10),
+ESSN CHAR(11) NOT NULL,
 PRIMARY KEY(dependent_name, ESSN),
 FOREIGN KEY(ESSN) REFERENCES Employee(SSN));
 
 CREATE TABLE Works_On(
-ESSN			CHAR(11)	NOT NULL,
-PNo			INTEGER		NOT NULL,
-Hours			DECIMAL(5,2),
+ESSN CHAR(11) NOT NULL,
+PNo INTEGER	NOT NULL,
+Hours DECIMAL(5,2),
 PRIMARY KEY(ESSN, PNo),
 FOREIGN KEY(ESSN) REFERENCES Employee(SSN),
 FOREIGN KEY(PNo) REFERENCES Project(PNumber));
 
 CREATE TABLE DeptLocations(
-Dnumber			INTEGER		NOT NULL,
-DLocation		VARCHAR(40)	NOT NULL,
+Dnumber INTEGER	NOT NULL,
+DLocation VARCHAR(40) NOT NULL,
 PRIMARY KEY(Dnumber, DLocation),
 FOREIGN KEY(Dnumber) REFERENCES Department(DNumber));
 
@@ -62,14 +63,12 @@ insert into Employee values
 ('666884444','1962-09-15','M','975 Fire Oak, Humble, TX',38000,'Ramesh','K','Narayan', 5,'333445555'),
 ('453453453','1972-07-31','F','5631 Rice, Houston, TX',25000,'Joyce','A','English',5,'333445555'),
 ('987987987','1969-03-29','M','980 Dallas, Houston, TX',25000,'Ahmad','V','Jabbar',4,'987654321'),
-('888665555','1937-11-10','M','450 Stone, Houston, TX',55000,'James','E','Borg',1,null)
-;
+('888665555','1937-11-10','M','450 Stone, Houston, TX',55000,'James','E','Borg',1,null);
 
 insert into Department values
 ('Research',5,'333445555','1988-05-22'),
 ('Administration',4,'987654321','1995-01-01'),
-('Headquarters',1,'888665555','1981-06-19')
-;
+('Headquarters',1,'888665555','1981-06-19');
 
 insert into Project values
 ('ProductX',1,'Bellaire',5),
@@ -77,8 +76,7 @@ insert into Project values
 ('ProductZ',3,'Houston',5),
 ('Computerization',10,'Stafford',4),
 ('Reorganization',20,'Houston',1),
-('Newbenefits',30,'Stafford',4)
-;
+('Newbenefits',30,'Stafford',4);
 
 
 insert into Dependent values
@@ -88,8 +86,7 @@ insert into Dependent values
 ('Abner','M','1942-02-28','SPOUSE', '987654321'),
 ('Michael','M','1988-01-04','SON','123456789'),
 ('Alice','F','1988-12-30','DAUGHTER','123456789'),
-('Elizabeth','F','1967-05-05','SPOUSE','123456789')
-;
+('Elizabeth','F','1967-05-05','SPOUSE','123456789');
 
 insert into Works_On values
 ('123456789',1,32.5),
@@ -107,15 +104,13 @@ insert into Works_On values
 ('987987987',30,5.0),
 ('987654321',30,20.0),
 ('987654321',20,15.0),
-('888665555',20, null)
-;
+('888665555',20, null);
 
 insert into DeptLocations values
 (1,'Houston'),
 (4,'Stafford'),
 (5,'Bellaire'),
 (5,'Sugarland'),
-(5,'Houston')
-;
+(5,'Houston');
 
 

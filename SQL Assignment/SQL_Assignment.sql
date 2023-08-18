@@ -1,9 +1,9 @@
-# SQL Assignment
+# SQL Assignment - My Solutions
 
 # Which employees earn the minimum salary? List their name and SSN
 SELECT FName, Minit, LName, SSN FROM employee WHERE Salary = (select min(Salary) as minSalary from Employee);
 
-# Which employees have both a spouce and a daughter dependent? List first and last name
+# Which employees have both a spouse and a daughter dependent? List first and last name
 SELECT FNAME, LNAME FROM employee join (select a.ESSN as SSN FROM dependent a inner join dependent b on a.ESSN = b.ESSN WHERE a.Relationship = 'DAUGHTER' and b.Relationship = 'SPOUSE') as Temp on employee.SSN = Temp.SSN;
 
 # Which projects do Wong, Borg, and English work on? (All not combined). List name and project name
@@ -15,7 +15,7 @@ SELECT FName, Minit, LName, SSN, salary FROM employee INNER JOIN Department ON S
 # List all projects that are worked on by both Narayan and Jabber. List project name and id
 SELECT PName, PNumber FROM (project INNER JOIN works_on ON PNumber = PNo) INNER JOIN employee ON ESSN = SSN WHERE LName = 'Narayan' OR LName = 'Jabber' GROUP BY PName HAVING COUNT(PName) > 1;
 
-# For each emplyee who has a depedent born after 1970, list the employee name and ~age of the dependent
+# For each employee who has a dependant born after 1970, list the employee name and ~age of the dependent
 SELECT FName, Minit, LName, TIMESTAMPDIFF(year, dependent.Bdate, '2023/01/01') AS age FROM employee INNER JOIN dependent ON SSN = ESSN WHERE dependent.Bdate > '1970-01-01';
 
 #List the employees that work on projects located in Houston. List their full name, project name, and total hours worked on the project
