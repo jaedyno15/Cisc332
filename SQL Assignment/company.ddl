@@ -5,7 +5,7 @@ create database companydb;
 CREATE TABLE Department(
 DName VARCHAR(15) NOT NULL,
 DNumber	INTEGER	NOT NULL,
-MGRSSN	CHAR(11) NOT NULL,
+MGRSSN CHAR(11) NOT NULL,
 MgrStartDate DATE,
 PRIMARY KEY(DNumber));
 
