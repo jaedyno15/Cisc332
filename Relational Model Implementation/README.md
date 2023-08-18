@@ -6,7 +6,7 @@ Call your database restaurantDB. At the top of you script you must have the foll
 
 ```
 drop database if exists restaurantDB;
-create database restaurant DB;
+create database restaurantDB;
 ```
 
 Make sure you indicate the primary key and any foreign keys, as well as NOT NULL constraints for each table/attribute. Populate your table with some reasonable data. A few tuples (6-8) for each table is expected.  Adding data should be done by a series of insert statements in your script. (See the company database example).
