@@ -2,7 +2,6 @@
 
 drop database if exists restaurantDB;
 CREATE database restaurantDB;
--- How to know which elements need to be NOT NULL? Only the primary keys?
 
 CREATE TABLE restaurant(
     street VARCHAR(50),
@@ -10,7 +9,7 @@ CREATE TABLE restaurant(
     pc CHAR(6), -- based on Ontario Postal Code
     name VARCHAR(50) NOT NULL,
     url VARCHAR(50) NOT NULL,
-    PRIMARY KEY(name) -- can change back to just the one
+    PRIMARY KEY(name) 
 );
 
 CREATE TABLE customer(
@@ -35,7 +34,6 @@ CREATE TABLE employee(
     FOREIGN KEY(restaurant) REFERENCES restaurant(name)
 );
 
--- Add relationship to order? foreign key?
 CREATE TABLE deliverer( 
     id CHAR(10) NOT NULL,
     email VARCHAR(50),
@@ -46,7 +44,7 @@ CREATE TABLE deliverer(
     FOREIGN KEY(id) REFERENCES employee(id)
 );
 
-CREATE TABLE manamgement(
+CREATE TABLE management(
     id CHAR(10) NOT NULL,
     email VARCHAR(50),
     firstName VARCHAR(50),
@@ -102,16 +100,16 @@ CREATE TABLE foodItem(
 
 CREATE TABLE orderInfo(
     tip DECIMAL(5,2),
-    placeTime DATETIME,
-    deliverTime DATETIME, 
+    placeTime TIME,
+    deliverTime TIME, 
     totalPrice DECIMAL(5,2),
     delivererID CHAR(10),
+    orderDate DATE,
     orderID INTEGER NOT NULL,
     PRIMARY KEY(orderID),
     FOREIGN KEY(delivererID) REFERENCES deliverer(id) on delete cascade
 );
 
--- need the price?
 CREATE TABLE orderItems(
     item VARCHAR(50) NOT NULL,
     orderid INTEGER NOT NULL,
@@ -119,7 +117,6 @@ CREATE TABLE orderItems(
     FOREIGN KEY (orderid) REFERENCES orderInfo(orderID) on delete cascade
 );
 
--- relation between an order and a customer? idk about this
 CREATE TABLE customOrder(
     customerEmail VARCHAR(50) NOT NULL,
     orderid INTEGER NOT NULL,
@@ -185,21 +182,32 @@ INSERT into deliverer values
 ('20289763', '20hlg@queensu.ca', 'Harold', 'Grey', 'Pizza Hut'),
 ('20212447', '20ls@queensu.ca', 'Lily', 'Sofia', 'Pizza pizza');
 
-INSERT into manamgement values
+INSERT into management values
 ('20276539', '21lpw@queensu.ca', 'Lisa', 'Waterston', 'Pizza Nova'),
 ('20278964', '19jrr@queensu.ca', 'Jeffery', 'Randolph', 'Pizza pizza'),
 ('20234598', '20emj@queensu.ca', 'Eliza', 'James', 'Pizza Nova');
 
 INSERT into foodItem values
 ("small cheese pizza", 7.50, 'Pizza pizza'),
+("small pepperoni pizza", 7.45, 'Pizza pizza'),
+("small pepperoni pizza", 7.45, 'Pizza Hut'),
+("medium pepperoni pizza", 9.25, 'Pizza pizza'),
+("medium hawaiian pizza", 9.72, 'Dominos'),
 ("dipping sauce", 1.10, 'Dominos'),
 ("dipping sauce", 1.00, 'Pizza pizza'),
+("dipping sauce", 1.00, 'Pizza Nova'),
 ("dipping sauce", 1.15, 'Pizza Hut'),
 ("xl two topping pizza", 17.23, 'Pizza pizza'),
 ("12 piece cheese bread", 6.78, 'Pizza Hut'),
+("12 piece cheese bread", 6.78, 'Pizza pizza'),
+("6 piece wings", 5.58, "Dominos"),
+("6 piece buffalo wings", 5.58, "Pizza Nova"),
+("6 piece wings", 5.58, "Pizza Hut"),
 ("medium four topping pizza", 10.42, 'Pizza Hut'),
 ("medium four topping pizza", 9.20, 'Pizza Nova'),
 ("250ml soda", 1.67, 'Pizza pizza'),
+("250ml soda", 1.67, 'Pizza Nova'),
+("250ml soda", 1.67, 'Dominos'),
 ("250ml soda", 1.67, 'Pizza Hut');
 
 INSERT into certifications values
@@ -210,28 +218,88 @@ INSERT into certifications values
 
 INSERT into schedule values
 ('20212447', '2023-01-12', '10:00:00', '14:00:00'),
-('20212447', '2023-01-13', '13:00:00', '24:00:00'),
+('20212447', '2023-01-13', '13:00:00', '21:00:00'),
+('20212447', '2023-01-09', '12:00:00', '18:00:00'),
 ('20276539', '2023-01-12', '10:30:00', '14:30:00'),
+('20276539', '2023-01-15', '13:00:00', '22:00:00'),
+('20276539', '2023-01-14', '18:00:00', '24:00:00'),
 ('20208799', '2023-01-13', '14:30:00', '22:30:00'),
-('20298765', '2023-01-14', '18:00:00', '23:30:00');
+('20208799', '2023-01-11', '10:30:00', '14:30:00'),
+('20208799', '2023-01-14', '12:00:00', '17:00:00'),
+('20298765', '2023-01-14', '18:00:00', '23:30:00'),
+('20298765', '2023-01-12', '13:00:00', '22:30:00'),
+('20298765', '2023-01-09', '17:30:00', '23:00:00'),
+('20267189', '2023-01-12', '10:30:00', '14:30:00'),
+('20267189', '2023-01-14', '10:00:00', '14:00:00'),
+('20267189', '2023-01-11', '10:30:00', '14:30:00'),
+('20223876', '2023-01-13', '13:00:00', '21:00:00'),
+('20223876', '2023-01-09', '17:30:00', '23:00:00'),
+('20223876', '2023-01-14', '10:00:00', '14:00:00'),
+('20234598', '2023-01-12', '10:00:00', '14:00:00'),
+('20234598', '2023-01-11', '10:30:00', '14:30:00'),
+('20234598', '2023-01-13', '13:00:00', '21:00:00'),
+('20278964', '2023-01-16', '12:00:00', '18:00:00'),
+('20278964', '2023-01-14', '10:00:00', '14:00:00'),
+('20278964', '2023-01-12', '13:00:00', '22:30:00'),
+('20247182', '2023-01-13', '13:00:00', '21:00:00'),
+('20247182', '2023-01-12', '13:00:00', '22:30:00'),
+('20247182', '2023-01-14', '18:00:00', '24:00:00'),
+('20289763', '2023-01-09', '17:30:00', '23:00:00'),
+('20289763', '2023-01-11', '10:30:00', '14:30:00'),
+('20269326', '2023-01-11', '10:30:00', '14:30:00'),
+('20269326', '2023-01-15', '13:00:00', '22:00:00'),
+('20299812', '2023-01-09', '17:30:00', '23:00:00'),
+('20299812', '2023-01-14', '10:00:00', '14:00:00');
 
 INSERT into orderInfo values
-(13.50, '2023-01-17 16-21-23', '2023-01-17 17-03-23', 76.00, '20212447', 1), 
-(5.27, '2023-06-09 12-04-54', '2023-06-09 13-14-12', 14.99, '20289763', 2),
-(3.20, '2023-01-03 14-44-28', '2023-01-03 15-09-16', 20.36, '20212447', 3);
+(13.50, '16:21:23', '17:03:23', 76.00, '20212447', '2023-01-14', 1), 
+(5.27, '12:04:54', '13:14:12', 14.99, '20289763', '2023-01-09', 2),
+(3.20, '14:44:28', '15:09:16', 20.36, '20212447', '2023-01-03', 3),
+(10.23, '17:22:35', '18:04:12', 22.63, '20247182', '2023-01-12', 4),
+(8.12, '16:45:12', '17:30:45', 25.65, '20247182', '2023-01-09', 5),
+(7.42, '12:08:42', '12:56:23', 15.21, '20289763', '2023-01-12', 6),
+(11.12, '16:45:21', '17:23:25', 21.35, '20212447', '2023-01-14', 7),
+(15.78, '18:03:28', '18:54:23', 37.87, '20247182', '2023-01-09', 8),
+(4.48, '20:19:48', '21:04:42', 15.92, '20289763', '2023-01-15', 9),
+(3.32, '13:34:56', '13:58:21', 12.14, '20289763', '2023-01-13', 10);
 
-INSERT into orderItems values
+INSERT into orderItems values 
 ("small cheese pizza",1),
 ("250ml soda",1),
 ("medium four topping pizza",2),
 ("12 piece cheese bread",2),
 ("dipping sauce",2),
-("xl two topping pizza", 3);
+("xl two topping pizza", 3),
+("6 piece wings", 4),
+("medium hawaiian pizza", 4),
+("250ml soda", 4),
+("dipping sauce", 4),
+("medium pepperoni pizza", 5),
+("12 piece cheese bread", 5),
+("small cheese pizza", 6),
+("250ml soda", 6),
+("6 piece buffalo wings", 7), 
+("medium four topping pizza", 7),
+("dipping sauce", 7),
+("6 piece wings", 8), 
+("medium hawaiian pizza", 8),
+("250ml soda", 8),
+("dipping sauce", 8),
+("12 piece cheese bread", 9),
+("small pepperoni pizza", 9),
+("xl two topping pizza", 10);
 
 INSERT into customOrder values
 ('kaiS@gmail.com', 1, 'Pizza pizza'),
 ('chuckM@gmail.com', 2, 'Pizza Hut'),
-('peterT@gmail.com', 3, 'Pizza pizza');
+('peterT@gmail.com', 3, 'Pizza pizza'),
+('alanA@hotmail.com', 4, 'Dominos'),
+('robinD@gmail.com', 5, 'Pizza Hut'),
+('burtonM@gmail.com', 6, 'Pizza Nova'),
+('peterT@gmail.com', 7, 'Pizza pizza'),
+('robinD@gmail.com', 8, 'Pizza Hut'),
+('chuckM@gmail.com', 9, 'Dominos'),
+('alanA@hotmail.com', 10, 'Pizza Nova');
 
 INSERT into transactions values
 ('2023-01-17', 76.00, 'chuckM@gmail.com'),
